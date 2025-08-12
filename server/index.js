@@ -20,6 +20,10 @@ const DB = process.env.MONGODB_URI;
 
 //middleware
 app.use(express.json());
+app.use(cors({
+  origin: 'https://bobbys-store.web.app',
+  credentials: true,
+}));
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
