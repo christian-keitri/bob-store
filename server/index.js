@@ -9,7 +9,7 @@ const userRouter = require('./routes/user');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DB = "your_mongodb_connection_string_here";
+const DB = "mongodb+srv://christianjoshuasalapate:ENGR.bob28@cluster0.4yh3ykr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // CORS options for your frontend
 const corsOptions = {
