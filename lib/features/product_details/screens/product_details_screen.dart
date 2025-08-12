@@ -1,5 +1,6 @@
 import 'package:amazon_clone_tutorial/common/widgets/custom_button.dart';
 import 'package:amazon_clone_tutorial/common/widgets/stars.dart';
+import 'package:amazon_clone_tutorial/features/cart/screens/cart_screen.dart';
 import 'package:amazon_clone_tutorial/features/product_details/services/product_details_services.dart';
 import 'package:amazon_clone_tutorial/providers/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -47,8 +48,25 @@ class _ProductDetailsScreensState extends State<ProductDetailsScreen> {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 
-  void addToCart() {
-    productDetailsServices.addToCart(context: context, product: widget.product);
+  void addToCart() async {
+    await productDetailsServices.addToCart(
+      context: context,
+      product: widget.product,
+    );
+
+    if (!mounted) return; // prevents accessing context if widget is gone
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Product added to cart!'),
+        action: SnackBarAction(
+          label: 'Go to Cart',
+          onPressed: () {
+            Navigator.pushNamed(context, CartScreen.routeName);
+          },
+        ),
+      ),
+    );
   }
 
   @override

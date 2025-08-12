@@ -28,7 +28,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   void initState() {
     super.initState();
-    currentStep = widget.order.status;
+    currentStep = widget.order.status.clamp(0, 3);
   }
 
   //only for admin!!!!!
