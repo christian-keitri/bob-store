@@ -12,7 +12,9 @@ const userRouter = require('./routes/user');
 // INIT
 const PORT = process.env.PORT || 3000;
 const app = express();
-const DB = process.env.MONGODB_URI;
+
+// TODO: For security, use environment variables instead of hardcoding your connection string
+const DB = "mongodb+srv://christianjoshuasalapate:ENGR.bob28@cluster0.4yh3ykr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // CORS OPTIONS
 const corsOptions = {
