@@ -30,6 +30,10 @@ app.use(adminRouter);
 app.use(productRouter);
 app.use(userRouter);
 
+app.get('/api/ping', (req, res) => {
+  res.json({ message: 'pong' });
+});
+
 
 // Connections
 
