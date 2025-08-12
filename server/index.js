@@ -1,58 +1,48 @@
-// IMPORTS
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// IMPORT ROUTERS
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
 
-// INIT
-const PORT = process.env.PORT || 3000;
 const app = express();
+const PORT = process.env.PORT || 3000;
+const DB = "your_mongodb_connection_string_here";
 
-// Use env variable if available, else fallback (don't hardcode password in production)
-const DB = process.env.MONGODB_URI || "mongodb+srv://christianjoshuasalapate:ENGR.bob28@cluster0.4yh3ykr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-// MIDDLEWARE
-app.use(express.json()); // JSON parsing first
-
-// CORS OPTIONS
+// CORS options for your frontend
 const corsOptions = {
-  origin: 'https://bobbys-store.web.app',
+  origin: 'https://bobbys-store.web.app', // your frontend URL
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'], // added x-auth-token here
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
 };
 
-// Enable CORS for all routes & preflight requests
+// Apply CORS globally *before* routes
 app.use(cors(corsOptions));
+
+// Handle preflight requests for all routes
 app.options('*', cors(corsOptions));
 
-// ROUTES
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Your routers
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
 app.use(userRouter);
 
-// TEST ROUTE
-app.get('/api/ping', (req, res) => {
-  res.json({ message: 'pong' });
-});
+// Test route
+app.get('/api/ping', (req, res) => res.json({ message: 'pong' }));
 
-// MONGOOSE CONNECTION
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log('Connection Successful');
-  })
-  .catch((e) => {
-    console.error('MongoDB connection error:', e);
-  });
+// Connect to MongoDB
+mongoose.connect(DB)
+  .then(() => console.log('Connection Successful'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-// SERVER START
+// Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server connected at port ${PORT}`);
 });
